@@ -1,73 +1,81 @@
-# flutter_k_chart
+# k_chart
+Maybe this is the best k chart in Flutter.Support drag,scale,long press,fling.And easy to use.
 
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](/LICENSE)
+## display
 
-## 介绍
-一个仿火币的flutter图表库包含深度图，支持各种指标及放大缩小、平移等操作
+#### image
 
-[webdemo演示](https://flutter-widget.live/packages/flutter_k_chart)
-Demo v0.1.0：[下载 APK](https://github.com/415593725/flutter_k_chart/blob/master/k_chart.apk)
+<img src="https://github.com/mafanwei/k_chart/blob/master/example/images/Screenshot1.jpg" width="375" alt="Screenshot"/>
 
-## 演示
+<img src="https://github.com/mafanwei/k_chart/blob/master/example/images/Screenshot2.jpg" width="375" alt="Screenshot"/>
 
-![chart_imge](https://github.com/gwhcn/flutter_k_chart/blob/master/example/images/k_chart.2019-09-01%202010_19_56.gif)
-![depth_image](https://github.com/gwhcn/flutter_k_chart/blob/master/example/images/depth.2019-09-01%202010_21_31.gif)
-![image1](https://github.com/gwhcn/flutter_k_chart/blob/master/example/images/screenshots.png)
+<img src="https://github.com/mafanwei/k_chart/blob/master/example/images/Screenshot3.jpeg" width="375" alt="Screenshot"/>
 
-## 简单用例
-#### 1.在 pubspec.yaml 中添加依赖
-本项目数据来自火币openApi，火币的接口可能需要翻墙，接口失败后会加载本地json。由于项目没有很好的封装，建议使用本地方式使用
-```yaml
-//本地导入方式
+#### gif
+
+![demo](https://github.com/mafanwei/k_chart/blob/master/example/images/demo.gif)
+
+![demo](https://github.com/mafanwei/k_chart/blob/master/example/images/demo2.gif)
+
+## Getting Started
+#### Install
+```
 dependencies:
-  flutter_k_chart:
-    path: 项目路径
+  k_chart: ^0.6.1
+```
+or use latest：
+```
+k_chart:
+    git:
+      url: https://github.com/mafanwei/k_chart
+```
+#### Usage
+
+**When you change the data, you must call this:**
+```dart
+DataUtil.calculate(datas); //This function has some optional parameters: n is BOLL N-day closing price. k is BOLL param.
 ```
 
-#### 2.在布局文件中添加
+use k line chart:
 ```dart
-import 'package:flutter_k_chart/flutter_k_chart.dart';
-....
 Container(
-  height: 450,
-  width: double.infinity,
-  child: KChartWidget(
-    datas,//数据
-    isLine: isLine,//是否显示折线图
-    mainState: _mainState,//控制主视图指标线
-    secondaryState: _secondaryState,//控制副视图指标线
-    volState: VolState.VOL,//控制成交量指标线
-    fractionDigits: 4,//保留小数位数
-  ),
- )
- 
- //深度图使用
- Container(
-   height: 230,
-   width: double.infinity,
-   child: DepthChart(_bids, _asks),
- )         
+              height: 450,
+              width: double.infinity,
+              child: KChartWidget(
+                chartStyle, // Required for styling purposes
+                chartColors,// Required for styling purposes
+                datas,// Required，Data must be an ordered list，(history=>now)
+                isLine: isLine,// Decide whether it is k-line or time-sharing
+                mainState: _mainState,// Decide what the main view shows
+                secondaryState: _secondaryState,// Decide what the sub view shows
+                fixedLength: 2,// Displayed decimal precision
+                timeFormat: TimeFormat.YEAR_MONTH_DAY,
+                onLoadMore: (bool a) {},// Called when the data scrolls to the end. When a is true, it means the user is pulled to the end of the right side of the data. When a
+                // is false, it means the user is pulled to the end of the left side of the data.
+                maDayList: [5,10,20],// Display of MA,This parameter must be equal to DataUtil.calculate‘s maDayList
+                translations: kChartTranslations,// Graphic language
+                volHidden: false,// hide volume
+                showNowPrice: true,// show now price
+                isOnDrag: (isDrag){},// true is on Drag.Don't load data while Draging.
+                onSecondaryTap:(){},// on secondary rect taped.
+                isTrendLine: false // You can use Trendline by long-pressing and moving your finger after setting true to isTrendLine property. 
+              ),
+            ),
 ```
-#### 3.修改样式
-可在chart_style.dart里面修改图表样式
-
-#### 4.数据处理
+use depth chart:
 ```dart
-//接口获取数据后，计算数据
-DataUtil.calculate(datas);
-//更新最后一条数据
-DataUtil.updateLastData(datas);
-//添加数据
-DataUtil.addLastData(datas,kLineEntity);
+DepthChart(_bids, _asks, chartColors) //Note: Datas must be an ordered list，
 ```
 
-#### 国际化 l10n
-```dart
-import 'package:flutter_k_chart/generated/l10n.dart' as k_chart;
-MaterialApp(
-      localizationsDelegates: [
-        k_chart.S.delegate//国际化
-      ],
-);
-```
- 
+#### Donate
+
+Buy a cup of coffee for the author.
+
+<img src="https://img-blog.csdnimg.cn/20181205161540134.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3F3ZTI1ODc4,size_16,color_FFFFFF,t_70" width="375" alt="alipay"/>
+<img src="https://img-blog.csdnimg.cn/20181205162201519.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3F3ZTI1ODc4,size_16,color_FFFFFF,t_70" width="375" alt="wechat"/>
+
+#### Thanks
+[gwhcn/flutter_k_chart](https://github.com/gwhcn/flutter_k_chart)
+
+#### Other
+Maybe there are some bugs in this k chart,or you want new indicators,you can create a pull request.I will happy to accept it and I hope we can make it better.

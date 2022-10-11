@@ -179,9 +179,9 @@ class _KChartWidgetState extends State<KChartWidget>
             if (!widget.isTrendLine &&
                 _painter.isInMainRect(details.localPosition)) {
               isOnTap = true;
-              if (mSelectX != details.globalPosition.dx &&
+              if (mSelectX != details.localPosition.dx &&
                   widget.isTapShowInfoDialog) {
-                mSelectX = details.globalPosition.dx;
+                mSelectX = details.localPosition.dx;
                 notifyChanged();
               }
             }
@@ -240,38 +240,38 @@ class _KChartWidgetState extends State<KChartWidget>
             isLongPress = true;
             print("onLongPressStart");
 
-            if ((mSelectX != details.globalPosition.dx ||
-                    mSelectY != details.globalPosition.dy) &&
+            if ((mSelectX != details.localPosition.dx ||
+                    mSelectY != details.localPosition.dy) &&
                 !widget.isTrendLine) {
               mSelectX = details.globalPosition.dx;
               notifyChanged();
             }
             //For TrendLine
             if (widget.isTrendLine && changeinXposition == null) {
-              mSelectX = changeinXposition = details.globalPosition.dx;
+              mSelectX = changeinXposition = details.localPosition.dx;
               mSelectY = changeinYposition = details.globalPosition.dy;
               notifyChanged();
             }
             //For TrendLine
             if (widget.isTrendLine && changeinXposition != null) {
-              changeinXposition = details.globalPosition.dx;
+              changeinXposition = details.localPosition.dx;
               changeinYposition = details.globalPosition.dy;
               notifyChanged();
             }
           },
           onLongPressMoveUpdate: (details) {
             print("onLongPressMoveUpdate");
-            if ((mSelectX != details.globalPosition.dx ||
+            if ((mSelectX != details.localPosition.dx ||
                     mSelectY != details.globalPosition.dy) &&
                 !widget.isTrendLine) {
-              mSelectX = details.globalPosition.dx;
+              mSelectX = details.localPosition.dx;
               mSelectY = details.localPosition.dy;
               notifyChanged();
             }
             if (widget.isTrendLine) {
               mSelectX =
-                  mSelectX + (details.globalPosition.dx - changeinXposition!);
-              changeinXposition = details.globalPosition.dx;
+                  mSelectX + (details.localPosition.dx - changeinXposition!);
+              changeinXposition = details.localPosition.dx;
               mSelectY =
                   mSelectY + (details.globalPosition.dy - changeinYposition!);
               changeinYposition = details.globalPosition.dy;
