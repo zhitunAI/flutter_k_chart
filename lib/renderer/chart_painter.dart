@@ -271,7 +271,7 @@ class ChartPainter extends BaseChartPainter {
     bool isLeft = false;
     if (translateXtoX(getX(index)) < mWidth / 2) {
       isLeft = false;
-      x = 1;
+      x = 0.1;
       Path path = new Path();
       path.moveTo(x, y - r);
       path.lineTo(x, y + r);
@@ -288,8 +288,8 @@ class ChartPainter extends BaseChartPainter {
       Path path = new Path();
       path.moveTo(x, y);
       path.lineTo(x + w2, y + r);
-      path.lineTo(mWidth - 2, y + r);
-      path.lineTo(mWidth - 2, y - r);
+      path.lineTo(mWidth - 0.1, y + r);
+      path.lineTo(mWidth - 0.1, y - r);
       path.lineTo(x + w2, y - r);
       path.close();
       canvas.drawPath(path, selectPointPaint);
@@ -506,8 +506,8 @@ class ChartPainter extends BaseChartPainter {
 
     // print(y);
     // k线图竖线
-    canvas.drawLine(Offset(x, mTopPadding),
-        Offset(x, size.height - mBottomPadding), paintY);
+    canvas.drawLine(
+        Offset(x, 0), Offset(x, size.height - mBottomPadding), paintY);
 
     Paint paintX = Paint()
       ..color = this.chartColors.hCrossColor
